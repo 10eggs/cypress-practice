@@ -1,0 +1,8 @@
+class SearchPage {
+
+}
+
+const webElements = {
+    
+
+};
