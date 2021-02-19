@@ -4,23 +4,16 @@ import { webElements as loginPage } from '../POM/login_page'
 
 describe('Login to Warden as an existing user', function(){
 
-    beforeEach(() => {
-        cy.log("********** Before every scenario use existing auth token **********");
-        Cypress.Cookies.preserveOnce('ai_session', 'csrftoken','warden','ai_user');
-        cy.fixture('test-data').then(function (data) {
-            this.data = data;
-        })
-
-    }) 
-    
     it('Login to Warden', function(){
 
         cy.log('********** Navigate to warden website **********');
-        cy.visit('https://stage-warden.historicengland.org.uk/');
+        cy.visit('/');
         cy.xpath(homePage.navBar).click();
         cy.xpath(homePage.signInBtn).click();
 
         cy.log('********** Login to Warden using valid credentials **********');
+        cy.fixture('test-data').then(function (data) {
+            this.data = data;
         cy.xpath(loginPage.username).type(this.data.Username);
         cy.xpath(loginPage.password).type(this.data.Password);
         cy.xpath(loginPage.signInBtn).click();
@@ -30,3 +23,4 @@ describe('Login to Warden as an existing user', function(){
         cy.xpath(homePage.logOffBtn).contains('Log off').should('be.visible');
     })
   })
+})
