@@ -5,7 +5,7 @@ class createResource {
 const webElements = {
     nameCard: '//*[@id="main-content"]/div/div/div[1]/div/div[2]/ul/li[1]/ul/li[4]/a/span',
     nameField: '//*[@id="main-content"]/div/div/div[3]/div[2]/div/div/div/form/div/div[1]/div/div/div/input',
-    nameTypeField: '//*[@id="select2-chosen-36"]',
+    nameTypeField: '',
     primaryNameType: '//*[@id="select2-chosen-36"]',
     addBtn: '//*[@id="main-content"]/div/div/div[3]/div[2]/div/div/div/div/button[2]',
     hobUid: '//*[@id="content-container"]/header/div[1]/div[1]/div[2]/h1/span',
@@ -19,3 +19,5 @@ const webElements = {
     hobUidField: '//*[@id="main-content"]/div/div/div[3]/div[2]/div/div/div/form/div/div[1]/div/div/div/input',
     resourceId: '//*[@id="main-content"]/div/div/div[3]/div[2]/div/div/div/form/div/div[2]/div/div/div/input',
 }
+
+export {webElements};

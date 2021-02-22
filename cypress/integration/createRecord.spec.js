@@ -3,6 +3,7 @@
 import { webElements as homePage } from '../POM/home_page'
 import { webElements as loginPage } from '../POM/login_page'
 import { webElements as resourceMngPage } from '../POM/resource_manager'
+import { webElements as createRecordPage } from '../POM/create_record_page'
 
 describe('User can create a new Monument record', () => {
     beforeEach(() => {
@@ -31,11 +32,11 @@ describe('User can create a new Monument record', () => {
 })
 
     it('should be bale to add a record name', () => {
-        cy.xpath(resourceMngPage.nameCard).click();
-        cy.xpath(resourceMngPage.nameField).type('RW Test Monument');
-        cy.xpath(resourceMngPage.nameTypeField).click();
-        cy.xpath(resourceMngPage.primaryNameType).click();
-        cy.xpath(resourceMngPage.addBtn).click();
+        cy.xpath(createRecordPage.nameCard).click();
+        cy.xpath(createRecordPage.nameField).type('RW Test Monument');
+        cy.xpath(createRecordPage.nameTypeField).click();
+        cy.xpath(createRecordPage.primaryNameType).click();
+        cy.xpath(createRecordPage.addBtn).click();
         //cy.xpath(resourceMngPage.hobUid).contains()
     })
 })   
