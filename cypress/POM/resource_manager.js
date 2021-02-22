@@ -3,7 +3,7 @@ class ResourceManager {
 }
 
 const webElements = {
-    nameCard: '//*[@id="main-content"]/div/div/div[1]/div/div[2]/ul/li[1]/ul/li[4]/a',
+    nameCard: '//*[@id="main-content"]/div/div/div[1]/div/div[2]/ul/li[1]/ul/li[4]/a/span',
     nameField: '//*[@id="main-content"]/div/div/div[3]/div[2]/div/div/div/form/div/div[1]/div/div/div/input',
     nameTypeField: '//*[@id="select2-chosen-36"]',
     primaryNameType: '//*[@id="select2-chosen-36"]',
