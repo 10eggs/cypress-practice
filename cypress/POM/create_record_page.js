@@ -1,12 +1,29 @@
-class createResource {
+class CreateResourcePage {
+
+    constructor(){
+    }
+
+    selectCard(leaf){
+        return cy.xpath(`(//div[@class="resource-editor-tree"]/ul/li)[1]/ul/li/a/span[text()='${leaf}']/..`).click();
+    }
+
+    selectNode(leaf, node){
+        return cy.xpath(`(//div[@class="resource-editor-tree"]/ul/li)[1]/ul/li/a/span[text()='${leaf}']/../../ul/div/li/ul/li/a/span[text()='${node}']/..`)
+    }
+
+    typeIntoField(field, text){
+        return cy.xpath(`//label[text()='${field}']/../div/input`).clear().type(`${text}`)
+    }
 
 }
 
 const webElements = {
-    nameCard: '//*[@id="main-content"]/div/div/div[1]/div/div[2]/ul/li[1]/ul/li[4]/a/span',
+    resourceTree: '.resource-editor-tree',
+
+    nameCard: '//*[@id="main-content"]/div/div/div[1]/div/div[2]/ul/li[1]/ul/li[4]/a/i[2]',
     nameField: '//*[@id="main-content"]/div/div/div[3]/div[2]/div/div/div/form/div/div[1]/div/div/div/input',
-    nameTypeField: '',
-    primaryNameType: '//*[@id="select2-chosen-36"]',
+    nameTypeField: '//*[@id="s2id_autogen1"]/a',
+    primaryNameType: '//*[@id="select2-chosen-36"]/ul/li[1]',
     addBtn: '//*[@id="main-content"]/div/div/div[3]/div[2]/div/div/div/div/button[2]',
     hobUid: '//*[@id="content-container"]/header/div[1]/div[1]/div[2]/h1/span',
 
@@ -21,3 +38,4 @@ const webElements = {
 }
 
 export {webElements};
+export default CreateResourcePage;

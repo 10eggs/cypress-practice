@@ -3,7 +3,9 @@
 import { webElements as homePage } from '../POM/home_page'
 import { webElements as loginPage } from '../POM/login_page'
 import { webElements as resourceMngPage } from '../POM/resource_manager'
-import { webElements as createRecordPage } from '../POM/create_record_page'
+import { webElements as createResourcePage } from '../POM/create_record_page'
+
+const action = new CreateResourcePage();
 
 describe('User can create a new Monument record', () => {
     beforeEach(() => {
@@ -27,16 +29,16 @@ describe('User can create a new Monument record', () => {
         cy.log('********** navigate to create resource page **********')
         cy.xpath(homePage.manageDataBtn).invoke('removeAttr', 'target').click();
         cy.xpath(resourceMngPage.createResBtn).click();
-        //cy.url().contains(resourceMngPage.resourceId);
+        cy.get(createResourcePage.resourceTree).should('be.visible');
     })
 })
 
-    it('should be bale to add a record name', () => {
-        cy.xpath(createRecordPage.nameCard).click();
-        cy.xpath(createRecordPage.nameField).type('RW Test Monument');
-        cy.xpath(createRecordPage.nameTypeField).click();
-        cy.xpath(createRecordPage.primaryNameType).click();
-        cy.xpath(createRecordPage.addBtn).click();
-        //cy.xpath(resourceMngPage.hobUid).contains()
+    it('Asset name can be assigned to a Monument record', () => {
+        action.selectCard('Asset Name');
+        action.typeIntoField('Name', 'Test Monument');
+        action.selectNode('Name Type', 'Primary');
+        cy.xpath(createResourcePage.addBtn).click();
+
+        
     })
 })   
