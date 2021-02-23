@@ -8,11 +8,23 @@ class CreateResourcePage {
     }
 
     selectNode(leaf, node){
-        return cy.xpath(`(//div[@class="resource-editor-tree"]/ul/li)[1]/ul/li/a/span[text()='${leaf}']/../../ul/div/li/ul/li/a/span[text()='${node}']/..`)
+        return cy.xpath(`(//div[@class="resource-editor-tree"]/ul/li)[1]/ul/li/a/span[text()='${leaf}']/../../ul/div/li/ul/li/a/span[text()='${node}']/..`);
     }
 
     typeIntoField(field, text){
-        return cy.xpath(`//label[text()='${field}']/../div/input`).clear().type(`${text}`)
+        return cy.xpath(`//label[text()='${field}']/../div/input`).clear().type(`${text}`);
+    }
+
+    selectFromDropDown(field, option){
+        return cy.xpath(`//label[text()='${field}']/../div/div/a/span/b`).click().xpath(`//div[@class="select2-result-label" and text()='${option}']/..`).click();
+    }
+
+    verifyNodeExists(leaf, newNode){
+        return cy.get('a.jstree-anchor').contains(`${leaf}`).parent().parent().children('ul.jstree-children').within($el=>{
+            for(let i=0;i<newNode.length;i++){
+                cy.get('span').contains(`${newNode[i]}`).should('be.visible');
+            }
+        })
     }
 
 }

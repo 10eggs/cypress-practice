@@ -4,6 +4,7 @@ import { webElements as homePage } from '../POM/home_page'
 import { webElements as loginPage } from '../POM/login_page'
 import { webElements as resourceMngPage } from '../POM/resource_manager'
 import { webElements as createResourcePage } from '../POM/create_record_page'
+import CreateResourcePage from '../POM/create_record_page'
 
 const action = new CreateResourcePage();
 
@@ -36,9 +37,12 @@ describe('User can create a new Monument record', () => {
     it('Asset name can be assigned to a Monument record', () => {
         action.selectCard('Asset Name');
         action.typeIntoField('Name', 'Test Monument');
-        action.selectNode('Name Type', 'Primary');
+        action.selectFromDropDown('Name Type', 'Primary');
         cy.xpath(createResourcePage.addBtn).click();
 
-        
+        cy.log('********** verify the new node is visible in the tree **********')
+        action.verifyNodeExists('Asset Name', ['Name', 'Test Monument']);
+
+
     })
 })   
