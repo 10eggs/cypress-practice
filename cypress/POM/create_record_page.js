@@ -19,6 +19,10 @@ class CreateResourcePage {
         return cy.xpath(`//label[text()='${field}']/../div/div/a/span/b`).click().xpath(`//div[@class="select2-result-label" and text()='${option}']/..`).click();
     }
 
+    getTextFromInput(inputName){
+        return cy.get('label').contains(inputName).parent().find('input').invoke('val');
+    }
+
     verifyNodeExists(leaf, newNode){
         return cy.get('a.jstree-anchor').contains(`${leaf}`).parent().parent().children('ul.jstree-children').within($el=>{
             for(let i=0;i<newNode.length;i++){
