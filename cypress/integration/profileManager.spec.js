@@ -51,7 +51,9 @@ describe('Editing user profile', () => {
         cy.xpath(profilePage.firstName).should('have.value', 'rebecca');
 
         cy.log('********** change name back and verify change **********')
+        cy.xpath(profilePage.editBtn).click();
         cy.xpath(profilePage.firstName).clear().type('QHCFTZQ');
+        cy.xpath(profilePage.saveBtn).click();
         cy.xpath(profilePage.firstName).should('have.value', 'QHCFTZQ');
     })
 }) 
