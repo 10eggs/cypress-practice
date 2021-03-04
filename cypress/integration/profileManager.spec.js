@@ -30,13 +30,31 @@ describe('Editing user profile', () => {
         cy.xpath(homePage.navBar).click();
         cy.xpath(homePage.welcomeBtn).click();
         cy.xpath(profilePage.editBtn).click();
-        cy.xpath(profilePage.phoneNumField).type('0123456789');
+        cy.xpath(profilePage.phoneNumField).clear().type('0123456789');
         cy.xpath(profilePage.saveBtn).click();
 
+        // find out how to assert input text exists - use have.value
         cy.log('********** verify phone number field contains updated number **********');
-        cy.xpath(profilePage.phoneNumField).contains('0123456789').should('be.visible');
+        cy.xpath(profilePage.phoneNumField).should('have.value', '0123456789');
     })
-})
-/* fn: QHCFTZQ
-// ln: 3FA7YN8@historicengland.org.uk
-// e: tomasz.pawlak@historicengland.org.uk */
+
+    it('should change first name and change it back', () => {
+        cy.visit('/');
+
+        cy.xpath(homePage.navBar).click();
+        cy.xpath(homePage.welcomeBtn).click();
+        cy.xpath(profilePage.editBtn).click();
+
+        cy.log('********** change first name and verify change **********')
+        cy.xpath(profilePage.firstName).clear().type('rebecca');
+        cy.xpath(profilePage.saveBtn).click();
+        cy.xpath(profilePage.firstName).should('have.value', 'rebecca');
+
+        cy.log('********** change name back and verify change **********')
+        cy.xpath(profilePage.firstName).clear().type('QHCFTZQ');
+        cy.xpath(profilePage.firstName).should('have.value', 'QHCFTZQ');
+    })
+}) 
+
+
+// fn: QHCFTZQ
