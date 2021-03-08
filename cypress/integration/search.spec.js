@@ -17,7 +17,7 @@ describe('Search page functionality', function(){
         cy.xpath(homePage.searchBtn).click();
 
         cy.log('********** validate search page is displayed **********')
-        cy.xpath(searchPage.searchBar).should('be.visible');
+        cy.get('#2id_autogen2').should('be.visible');
     })
 
     it('Users can carry out a basic search', function(){
