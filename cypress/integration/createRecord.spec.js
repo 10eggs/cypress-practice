@@ -30,17 +30,19 @@ describe('User can create a new Monument record', () => {
         cy.log('********** navigate to create resource page **********')
         cy.xpath(homePage.manageDataBtn).invoke('removeAttr', 'target').click();
         cy.xpath(resourceMngPage.createResBtn).click();
+        cy.wait(1000);
         cy.get(createResourcePage.resourceTree).should('be.visible');
     })
 })
 
     /*************************************************************************************/
 
-    it('Asset name can be assigned to a Monument record', () => {
+    it('@1 Asset name can be assigned to a Monument record', () => {
         action.selectCard('Asset Name');
         action.typeIntoField('Name', 'Test Monument');
         action.selectFromDropDown('Name Type', 'Primary');
         cy.xpath(createResourcePage.addBtn).click();
+        cy.wait(1000);
 
         cy.log('********** verify the new node is visible in the tree **********')
         action.verifyNodeExists('Asset Name', ['Name', 'Test Monument']);
@@ -48,7 +50,7 @@ describe('User can create a new Monument record', () => {
 
     /*************************************************************************************/
 
-    it('Verify Hobuid has been autopopulated', () => {
+    it('@2 Verify Hobuid has been autopopulated', () => {
         cy.log('********** verify the hobuid is now the record title **********')
         action.selectCard('Primary Reference Number ')
         action.getTextFromInput('HobUid').then($val=>{
@@ -58,26 +60,41 @@ describe('User can create a new Monument record', () => {
 
     /*************************************************************************************/
 
-    it('Location data can be added to the record', () => {
+    it('@3 Location data can be added to the record', () => {
         cy.log('********** click on the Locations card and add a new locations instance **********')
         action.selectCard('Locations');
         cy.get('button').contains('Add').click();
+        cy.wait(1000);
 
         // cy.log('********** add map location data **********')
         // action.selectNode('Locations', 'Map').click();
         // cy.get('.mapboxgl-ctrl-geocoder--input').type('Andover');
         // cy.get('.mapboxgl-ctrl-geocoder--suggestion').first().click();
 
-        cy.log('********** add grid reference in map refrence node **********')
-        action.selectNode('Locations', 'Map References').click();
-        cy.get('[placeholder="Enter the centre point map reference of the resource."]').type('SU1025169962');
-        cy.get('button').contains('Add').click();
-        action.verifyNodeExists('Map References', ['OSGB Grid Reference: SU1025169962']);
-
         cy.log('*********** add an invalid grid reference and verify error message displays **********')
+        action.selectNode('Locations', 'Map References').click();
         cy.get('[placeholder="Enter the centre point map reference of the resource."]').type('123456680');
-        cy.get('[data-bind="text: errorMessage"]').should('be.visible');
+        cy.get('button').contains('Add').click();
+        cy.get('.widget-wrapper').find('[data-bind="text: errorMessage"]').invoke('text')
+        .should('eq', 'Input coordinate did not pass validation.  Please check it is in one of the approved formats and try again.');
 
+        cy.log('********** add a valid grid reference in map refrence node **********')
+        cy.get('[placeholder="Enter the centre point map reference of the resource."]').clear().type('SU1025169962');
+        cy.get('button').contains('Add').click();
+        cy.wait(1000);
+
+        cy.log('********** verify the coordinate has been added and is visible in the map references node **********')
+        action.verifyNodeExists('Map References', ['OSGB Grid Reference', 'SU1025169962']);
+    })
+
+    /*************************************************************************************/
+
+    it('@4 Related areas should be auto populated with the correct locations', () => {
+        cy.reload().wait(1000);
+        action.selectCard('Locations').click();
+        action.selectNode('Locations', 'Related Areas').click();
+        action.verifyNodeExists('Related Areas', '')
+        // verify the related areas are in the card same verificaion as above
 
     })
 
