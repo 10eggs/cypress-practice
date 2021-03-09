@@ -91,12 +91,40 @@ describe('User can create a new Monument record', () => {
 
     it('@4 Related areas should be auto populated with the correct locations', () => {
         cy.reload().wait(1000);
-        action.selectCard('Locations').click();
-        action.selectNode('Locations', 'Related Areas').click();
-        action.verifyNodeExists('Related Areas', '')
-        // verify the related areas are in the card same verificaion as above
+        // action.selectCard('Locations').click();
+        // action.selectNode('Locations', 'Related Areas').click();
+    
+        cy.log('********** verify the related areas are in the card tree **********')
+        // action.verifyNodeExists('Related Areas', ['Wiltshire']);
+        // action.verifyNodeExists('Related Areas', ['Avebury']);
+
+        cy.get('//h2[text()="Related Areas"]').within(() => {
+            cy.get('.card-component .form-control').invoke('text').contains('Wiltshire');
+            cy.get('.select2-choice').find('select2-chosen-6').contains('District');
+
+        })
+    })
+
+    /*************************************************************************************/
+
+    it('@5 Asset description can be added to the record', () => {
+        action.selectCard('Asset Descriptions').click();
+        action.selectFromDropDown('Location Description Type', 'Summary');
+        action.typeIntoField('Location Description', 'this is a test record.');
+        cy.get(resourceMngPage.addBtn).click();
+
+        cy.log('********** verify asset description is visible in card tree ***********')
+        action.verifyNodeExists('Asset Descriptions', ['this is a test record.']);  
+    })
+
+    /*************************************************************************************/
+
+    it('@6 Sources data can be added to the record', () => {
+        action.selectCard('Sources').click();
 
     })
+
+
 
 
 })   

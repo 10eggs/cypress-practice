@@ -11,6 +11,10 @@ class CreateResourcePage {
         return cy.xpath(`(//div[@class="resource-editor-tree"]/ul/li)[1]/ul/li/a/span[text()='${leaf}']/../../ul/div/li/ul/li/a/span[text()='${node}']/..`);
     }
 
+    selectNodeWithData(leaf, node, dataNode){
+        return cy.xpath(`(//div[@class="resource-editor-tree"]/ul/li)[1]/ul/li/a/span[text()='${leaf}']/../../ul/div/li/ul/li/a/span[text()='${node}']/../../`);
+    }
+
     typeIntoField(field, text){
         return cy.xpath(`//label[text()='${field}']/../div/input`).clear().type(`${text}`);
     }
