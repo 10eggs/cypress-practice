@@ -47,4 +47,9 @@ describe('advanced search functionality', () => {
         cy.get('.search-title').contains('Results: 572');
     })
 
+    // it('@2 should be able to search for a monument using latitude and longitude coordinates', () => {
+
+
+    // })
+
 })
