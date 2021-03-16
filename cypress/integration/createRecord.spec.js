@@ -3,8 +3,8 @@
 import { webElements as homePage } from '../POM/home_page'
 import { webElements as loginPage } from '../POM/login_page'
 import { webElements as resourceMngPage } from '../POM/resource_manager'
-import { webElements as createResourcePage } from '../POM/create_record_page'
-import CreateResourcePage from '../POM/create_record_page'
+import { webElements as createResourcePage } from '../POM/create_resource_page'
+import CreateResourcePage from '../POM/create_resource_page'
 
 const action = new CreateResourcePage();
 
@@ -111,6 +111,7 @@ describe('User can create a new Monument record', () => {
     /*************************************************************************************/
 
     it('@5 Asset description can be added to the record', () => {
+        cy.log('********** add a description to the record **********')
         action.selectCard('Asset Descriptions').click();
         action.selectFromDropDown('Location Description Type', 'Summary');
         action.typeIntoField('Location Description', 'this is a test record.');
@@ -123,6 +124,7 @@ describe('User can create a new Monument record', () => {
     /*************************************************************************************/
 
     it('@6 Sources data can be added to the record', () => {
+        cy.log('********** add sources data to the record **********')
         action.selectCard('Sources').click();
         action.typeIntoField('Source Number', '2');
         action.selectFromDropDown('Source or Source Type', 'The reconstruction of an Iron Age roundhouse at Castell Henllys, Dyfed');
@@ -135,6 +137,33 @@ describe('User can create a new Monument record', () => {
         cy.log('********** verify sources data is visible in card tree **********')
         action.verifyNodeExists('Source Number', ['this is a test']);
     })
+
+    
+    /*************************************************************************************/
+
+    it('@7 Construction phase and type data can be added to the record', () => {
+        cy.log('********** add construction data to the record **********')
+        action.selectCard('Construction Phase and Type').click();
+        action.typeIntoField('Period', '21');
+        action.selectFromDropDown('Period', '21st Century');
+        action.typeIntoField('From Date', '2020-03-01');
+        action.typeIntoField('To Date', '2020-04-02');
+        action.typeIntoField('Monument Type', 'Comm');
+        action.selectFromDropDown('Monument Type', 'Community Centre');
+        action.selectFromDropDown('Evidence', 'Implied Evidence');
+        action.typeIntoField('Main Construction Material', 'metal');
+        action.selectFromDropDown('Main Construction Material', 'Metal');
+        action.typeIntoField('Construction Method', 'hand');
+        action.selectFromDropDown('Construction Method', 'Handbuilt');
+        action.typeIntoField('Construction Description', 'this is a test');
+        action.selectFromDropDown('Construction Description Type', 'Summary');
+
+        cy.log('********* verify construction data is visible in card tree **********')
+        cy.verifyNodeExists('Construction Phase and Type', ['Period', '21st Century']);
+    })
+
+    
+    /*************************************************************************************/
 
 })
 })
