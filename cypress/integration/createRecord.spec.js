@@ -81,7 +81,7 @@ describe('User can create a new Monument record', () => {
         cy.log('********** add a valid grid reference in map refrence node **********')
         cy.get('[placeholder="Enter the centre point map reference of the resource."]').clear().type('SU1025169962');
         cy.get('button').contains('Add').click();
-        cy.wait(1000);
+        cy.wait(5000);
 
         cy.log('********** verify the coordinate has been added and is visible in the map references node **********')
         action.verifyNodeExists('Map References', ['OSGB Grid Reference', 'SU1025169962']);
@@ -90,20 +90,23 @@ describe('User can create a new Monument record', () => {
     /*************************************************************************************/
 
     it('@4 Related areas should be auto populated with the correct locations', () => {
-        cy.reload().wait(1000);
-        // action.selectCard('Locations').click();
-        // action.selectNode('Locations', 'Related Areas').click();
-    
+        cy.reload().wait(7000);
+        action.selectCard('Locations').click();
+        action.selectNode('Locations', 'Related Areas').click();
+
         cy.log('********** verify the related areas are in the card tree **********')
-        // action.verifyNodeExists('Related Areas', ['Wiltshire']);
-        // action.verifyNodeExists('Related Areas', ['Avebury']);
+        action.verifyNodeExists('Related Areas', ['Wiltshire']);
+        action.verifyNodeExists('Related Areas', ['Avebury']);
 
-        cy.get('//h2[text()="Related Areas"]').within(() => {
-            cy.get('.card-component .form-control').invoke('text').contains('Wiltshire');
-            cy.get('.select2-choice').find('select2-chosen-6').contains('District');
+    //     cy.get('#main-content > div > div > div.left-panel.graph-designer.resource-editor > div > div.resource-editor-tree > ul > li:nth-child(1) > ul > li.jstree-node.jstree-open > ul > div > li > ul > li:nth-child(3) > ul > div > li:nth-child(1) > a').click();
+    //     cy.get('.card-component .form-control').contains('Avebury');
+    //     cy.get('.select2-choice').find('select2-chosen-6').contains('Civil Parish');
 
-        })
-    })
+
+    //     cy.get('#main-content > div > div > div.left-panel.graph-designer.resource-editor > div > div.resource-editor-tree > ul > li:nth-child(1) > ul > li.jstree-node.jstree-open > ul > div > li > ul > li:nth-child(3) > ul > div > li:nth-child(1) > a').click();
+    //     cy.get('.card-component .form-control').invoke('text').contains('Wiltshire');
+    //     cy.get('.select2-choice').find('select2-chosen-6').contains('District');
+    // })
 
     /*************************************************************************************/
 
@@ -114,17 +117,24 @@ describe('User can create a new Monument record', () => {
         cy.get(resourceMngPage.addBtn).click();
 
         cy.log('********** verify asset description is visible in card tree ***********')
-        action.verifyNodeExists('Asset Descriptions', ['this is a test record.']);  
+        action.verifyNodeExists('Asset Description', ['this is a test record.']);  
     })
 
     /*************************************************************************************/
 
     it('@6 Sources data can be added to the record', () => {
         action.selectCard('Sources').click();
+        action.typeIntoField('Source Number', '2');
+        action.selectFromDropDown('Source or Source Type', 'The reconstruction of an Iron Age roundhouse at Castell Henllys, Dyfed');
+        action.typeIntoField('Source Details', 'Test');
+        action.typeIntoField('Page(s)', '2-11');
+        action.typeIntoField('Figs.', '2');
+        action.typeIntoField('Vol(s)', '3');
+        cy.get(createResourcePage.addBtn).click();
 
+        cy.log('********** verify sources data is visible in card tree **********')
+        action.verifyNodeExists('Source Number', ['this is a test']);
     })
 
-
-
-
-})   
+})
+})
