@@ -2,25 +2,40 @@
 import { webElements as homePage } from '../POM/home_page'
 import { webElements as loginPage } from '../POM/login_page'
 
-describe('Login to Warden as an existing user', function(){
+describe('Authentication functionality', () => {
+    beforeEach(() => {
+        Cypress.Cookies.preserveOnce('ai_session', 'csrftoken','warden','ai_user'); 
+        cy.visit('/');   
+})
 
-    it('Login to Warden', function(){
 
-        cy.log('********** Navigate to warden website **********');
-        cy.visit('/');
-        cy.xpath(homePage.navBar).click();
-        cy.xpath(homePage.signInBtn).click();
-
-        cy.log('********** Login to Warden using valid credentials **********');
+    it('User can login using valid credentials', () => {
+        cy.log('********** sign into the application **********');
         cy.fixture('test-data').then(function (data) {
             this.data = data;
+        cy.xpath(homePage.navBar).click();
+        cy.xpath(homePage.signInBtn).click();
         cy.xpath(loginPage.username).type(this.data.Username);
         cy.xpath(loginPage.password).type(this.data.Password);
         cy.xpath(loginPage.signInBtn).click();
-
-        cy.log('********** Validate login was successful **********')
         cy.xpath(homePage.navBar).click();
+
+        cy.log('********** verify user is logged in **********')
         cy.xpath(homePage.logOffBtn).contains('Log off').should('be.visible');
+        cy.xpath(homePage.logOffBtn).click();
     })
+
   })
+
+    it('User cannot login using invalid credentials', () =>{
+        cy.xpath(homePage.navBar).click();
+        cy.xpath(homePage.signInBtn).click();
+        cy.xpath(loginPage.username).type('test');
+        cy.xpath(loginPage.password).type('test');
+        cy.xpath(loginPage.signInBtn).click();
+
+        cy.log('********** verify error message is visible **********')
+        cy.get('login-failed-alert').should('be.visible');
+    })
+
 })
