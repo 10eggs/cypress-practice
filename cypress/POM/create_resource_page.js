@@ -11,16 +11,17 @@ class CreateResourcePage {
         return cy.xpath(`(//div[@class="resource-editor-tree"]/ul/li)[1]/ul/li/a/span[text()='${leaf}']/../../ul/div/li/ul/li/a/span[text()='${node}']/..`);
     }
 
-    // selectNodeWithData(leaf, node, dataNode){
-    //     return cy.xpath(`(//div[@class="resource-editor-tree"]/ul/li)[1]/ul/li/a/span[text()='${leaf}']/../../ul/div/li/ul/li/a/span[text()='${node}']/../../`);
-    // }
-
     typeIntoField(field, text){
-        return cy.xpath(`//label[text()='${field}']/../div/input`).clear().type(`${text}`);
+        return cy.xpath(`//label[text()='${field}']/../div/input`).type(`${text}`);
     }
 
     selectFromDropDown(field, option){
         return cy.xpath(`//label[text()='${field}']/../div/div/a/span/b`).click().xpath(`//div[@class="select2-result-label" and text()='${option}']/..`).click();
+    }
+
+    // create a type into dropdown field function
+    typeIntoDropDownField(field, text){
+        return cy.xpath(`//label[text()='${field}']/..//div/div/a/span/b`).click().type(`${text}`);
     }
 
     getTextFromInput(inputName){
@@ -33,6 +34,11 @@ class CreateResourcePage {
                 cy.get('span').contains(`${newNode[i]}`).should('be.visible');
             }
         })
+    }
+
+    interactWithIframe(text){
+        cy.get('iframe').its('0.contentDocument').its('body').type(text);
+        cy.get('button').contains('Add').click();
     }
 
 }
@@ -55,6 +61,7 @@ const webElements = {
     primaryRefNumCard: '//*[@id="main-content"]/div/div/div[1]/div/div[2]/ul/li[1]/ul/li[2]/a/span',
     hobUidField: '//*[@id="main-content"]/div/div/div[3]/div[2]/div/div/div/form/div/div[1]/div/div/div/input',
     resourceId: '//*[@id="main-content"]/div/div/div[3]/div[2]/div/div/div/form/div/div[2]/div/div/div/input',
+    relatedResNode: '//*[@id="main-content"]/div/div/div[1]/div/div[2]/ul/li[2]/a/strong/span'
 }
 
 export {webElements};

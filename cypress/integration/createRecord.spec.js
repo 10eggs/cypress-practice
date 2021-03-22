@@ -52,7 +52,7 @@ describe('User can create a new Monument record', () => {
 
     it('@2 Verify Hobuid has been autopopulated', () => {
         cy.log('********** verify the hobuid is now the record title **********')
-        action.selectCard('Primary Reference Number ')
+        action.selectCard('Primary Reference Number ');
         action.getTextFromInput('HobUid').then($val=>{
             cy.get('.page-header').find('span').invoke('text').should('contain', $val);
         })
@@ -91,7 +91,7 @@ describe('User can create a new Monument record', () => {
 
     it('@4 Related areas should be auto populated with the correct locations', () => {
         cy.reload().wait(7000);
-        action.selectCard('Locations').click();
+        action.selectCard('Locations');
         action.selectNode('Locations', 'Related Areas').click();
 
         cy.log('********** verify the related areas are in the card tree **********')
@@ -100,16 +100,6 @@ describe('User can create a new Monument record', () => {
 
     })
 
-    //     cy.get('#main-content > div > div > div.left-panel.graph-designer.resource-editor > div > div.resource-editor-tree > ul > li:nth-child(1) > ul > li.jstree-node.jstree-open > ul > div > li > ul > li:nth-child(3) > ul > div > li:nth-child(1) > a').click();
-    //     cy.get('.card-component .form-control').contains('Avebury');
-    //     cy.get('.select2-choice').find('select2-chosen-6').contains('Civil Parish');
-
-
-    //     cy.get('#main-content > div > div > div.left-panel.graph-designer.resource-editor > div > div.resource-editor-tree > ul > li:nth-child(1) > ul > li.jstree-node.jstree-open > ul > div > li > ul > li:nth-child(3) > ul > div > li:nth-child(1) > a').click();
-    //     cy.get('.card-component .form-control').invoke('text').contains('Wiltshire');
-    //     cy.get('.select2-choice').find('select2-chosen-6').contains('District');
-    // })
-
     /*************************************************************************************/
 
     it('@5 Location description data can be added to the record - handling iframe', () =>{
@@ -117,35 +107,32 @@ describe('User can create a new Monument record', () => {
         action.selectFromDropDown('Location Description Type', 'Summary');
 
         cy.log('******** Interact with iframe ********')
-        cy.get('iframe').its('0.contentDocument').its('body').type('This is a test record.');
-        cy.get('button').contains('Add').click().wait(5000);
+        action.interactWithIframe('This is a test Monument located in Wiltshire.');
 
         cy.log('******** verfiy location description is visible in card tree ********')
-        action.verifyNodeExists('Locational Descriptions', ['Summary']);
+        cy.wait(7000);
+        action.verifyNodeExists('Locational Descriptions', ['Location Description Type', 'Summary']);
     })
 
     /*************************************************************************************/
 
     it('@6 Asset description can be added to the record', () => {
         cy.log('********** add a description to the record **********')
-        action.selectCard('Asset Descriptions').click();
+        action.selectCard('Asset Descriptions');
         action.selectFromDropDown('Asset_Description_Type', 'Summary');
-        action.typeIntoField('Asset_Description', 'this is a test record.');
 
         cy.log('******** interact with iframe ********')
-        cy.get('iframe').its('0.contentDocument').its('body').type('This is a test Monument record');
-        cy.get('button').contains('Add').click();
-        cy.wait(5000);
+        action.interactWithIframe('This is a test Monument record.');
 
         cy.log('********** verify asset description is visible in card tree ***********')
-        action.verifyNodeExists('Asset Descriptions', ['Asset_Description', 'this is a test record.']);  
+        action.verifyNodeExists('Asset Descriptions', ['Asset_Description', 'This is a test Monument record.']);  
     })
 
     /*************************************************************************************/
 
     it('@7 Sources data can be added to the record', () => {
         cy.log('********** add sources data to the record **********')
-        action.selectCard('Sources').click();
+        action.selectCard('Sources');
         action.typeIntoField('Source Number', '2');
         action.selectFromDropDown('Source or Source Type', 'The reconstruction of an Iron Age roundhouse at Castell Henllys, Dyfed');
         action.typeIntoField('Source Details', 'Test');
@@ -164,33 +151,33 @@ describe('User can create a new Monument record', () => {
 
     it('@8 Construction phase and type data can be added to the record', () => {
         cy.log('********** add construction data to the record **********')
-        action.selectCard('Construction Phase and Type').click();
-        action.typeIntoField('Period', '21');
+        action.selectCard('Construction Phase and Type');
+        action.typeIntoDropDownField('Period', '21');
         action.selectFromDropDown('Period', '21st Century');
         action.typeIntoField('From Date', '2020-03-01');
         action.typeIntoField('To Date', '2020-04-02');
-        action.typeIntoField('Monument Type', 'Comm');
+        action.typeIntoDropDownField('Monument Type', 'Comm');
         action.selectFromDropDown('Monument Type', 'Community Centre');
         action.selectFromDropDown('Evidence', 'Implied Evidence');
-        action.typeIntoField('Main Construction Material', 'metal');
+        action.typeIntoDropDownField('Main Construction Material', 'metal');
         action.selectFromDropDown('Main Construction Material', 'Metal');
-        action.typeIntoField('Construction Method', 'hand');
+        action.typeIntoDropDownField('Construction Method', 'hand');
         action.selectFromDropDown('Construction Method', 'Handbuilt');
         action.typeIntoField('Construction Description', 'this is a test');
         action.selectFromDropDown('Construction Description Type', 'Summary');
         cy.get('button').contains('Add').click();
-        cy.wait(3000);
 
         cy.log('********* verify construction data is visible in card tree **********')
-        cy.verifyNodeExists('Construction Phase and Type', ['Period', '21st Century']);
+        cy.wait(5000);
+        action.verifyNodeExists('Construction Phase and Type', ['Period', '21st Century']);
     })
 
     
     /*************************************************************************************/
 
     it('@9 Cross references to other datasets can be added to the record', () => {
-        action.selectCard('Cross References to other datasets').click();
-        action.typeIntoField('External Cross Reference Source', 'Coll');
+        action.selectCard('Cross References to other datasets');
+        action.typeIntoDropDownField('External Cross Reference Source', 'Coll');
         action.selectFromDropDown('External Cross Reference Source', 'Collection Number');
         action.typeIntoField('External Cross Reference Number', '1234567890');
         action.typeIntoField('External Cross Reference Notes', 'this is a test.');
@@ -198,27 +185,29 @@ describe('User can create a new Monument record', () => {
         cy.wait(3000);
 
         cy.log('********** verify cross reference data is visible in card tree *********')
-        cy.verifyNodeExists('Cross References to other datasets', ['External Cross Reference Source', 'Collection Number']);
+        cy.wait(5000);
+        action.verifyNodeExists('Cross References to other datasets', ['External Cross Reference Source', 'Collection Number']);
     })
 
      
     /*************************************************************************************/
 
     it('@10 Related Warden Monuments can be added to the record', () => {
-        action.selectCard('Related Warden Monuments').click();
-        action.typeIntoField('Associated_Monuments', '1628230');
+        action.selectCard('Related Warden Monuments');
+        action.typeIntoDropDownField('Associated_Monuments', '1628230');
         action.selectFromDropDown('Associated_Monuments', '1628330');
         action.selectFromDropDown('Relationship Type', 'General association');
         cy.get('button').contains('Add').click();
 
         cy.log('********** verify related warden monument data is visible in the card tree **********')
-        cy.verifyNodeExists('Related Warden Monuments', ['Associated_Monuments', '1628230']);
+        cy.wait(5000);
+        action.verifyNodeExists('Related Warden Monuments', ['Associated_Monuments', '1628230']);
     })
 
     /*************************************************************************************/
 
     it('@11 Associated Organisation data can be added to the record', () => {
-        action.selectCard('Associated Organisations').click();
+        action.selectCard('Associated Organisations');
         action.typeIntoField('Organisation', 'Historic');
         action.selectFromDropDown('Organisation', 'Historic England');
         action.selectFromDropDown('Organisation Role', 'Archaeological Field Investigator');
@@ -228,14 +217,15 @@ describe('User can create a new Monument record', () => {
         cy.get('button').contains('Add').click();
 
         cy.log('********** verify associated organisation data is visible in the card tree **********')
-        cy.verifyNodeExists('Associated Organisations', ['Organisation', 'Historic England']);
+        cy.wait(5000);
+        action.verifyNodeExists('Associated Organisations', ['Organisation', 'Historic England']);
     })
 
      /*************************************************************************************/
 
     it('@12 Associated People data can be added to the record', () => {
-        action.selectCard('Associated People').click();
-        action.typeIntoField('Person', 'Helen');
+        action.selectCard('Associated People');
+        action.typeIntoDropDownField('Person', 'Helen');
         action.selectFromDropDown('Person', 'Helen Winton');
         cy.get('#select2-result-label-192 > div > div.selected-node-value > div > span.node-value-select-value').click();
         cy.get('#select2-chosen-174').contains('Historic England');
@@ -246,13 +236,14 @@ describe('User can create a new Monument record', () => {
         cy.get('button').contains('Add').click();
 
         cy.log('********** verify associated people data is visible in the card tree **********')
-        cy.verifyNodeExists('Associated People', ['Person', 'Helen Winton']);
+        cy.wait(5000);
+        action.verifyNodeExists('Associated People', ['Person', 'Helen Winton']);
     })
 
      /*************************************************************************************/
 
     it('@13 Area status data can be added to the record', () => {
-        action.selectCard('Area Status').click();
+        action.selectCard('Area Status');
         action.selectFromDropDown('Area Status', 'Conservation Area');
         action.typeIntoField('From Date', '2021-03-18');
         action.typeIntoField('To Date', '2022-03-18');
@@ -260,13 +251,14 @@ describe('User can create a new Monument record', () => {
         cy.get('button').contains('Add').click();
 
         cy.log('********** verify area status data is visible in the card tree **********')
-        cy.verifyNodeExists('Area Status', ['Area Status', 'Conservation Area']);
+        cy.wait(5000);
+        action.verifyNodeExists('Area Status', ['Area Status', 'Conservation Area']);
     })
 
      /*************************************************************************************/
 
     it('@14 Related resources can be added to the record', () => {
-        action.selectCard('Related Resources').click();
+        cy.xpath(createResourcePage.relatedResNode).click();
         cy.get('#s2id_autogen305 > ul').then(action.selectFromDropDown('Spec Pap Palaeontol'));
         cy.get('button').contains('Add').click();
     })
@@ -277,8 +269,9 @@ describe('User can create a new Monument record', () => {
         cy.get('.manage-dropdown').click();
         cy.get('#card-manager .menu-item-subtitle').click();
 
-        cy.get('ep-form-alert-title').contains('Delete Resource?');
-        cy.xpath('//*[@id="card-alert-panel"]/div[2]/button[2]').click();
+        cy.xpath('//*[@id="card-alert-panel"]/div[2]/button[2]').contains('Delete Resource?').click();
+
+        cy.log('********** verify record has been successfully deleted **********')
         cy.url().should('eq', 'https://stage-warden.historicengland.org.uk/resource');
     })
     
