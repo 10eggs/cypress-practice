@@ -21,7 +21,7 @@ class CreateResourcePage {
 
     // create a type into dropdown field function
     typeIntoDropDownField(field, text){
-        return cy.xpath(`//label[text()='${field}']/..//div/div/a/span/b`).click().type(`${text}`);
+        return cy.get(`//label[text()='${field}']/../div/div/a/span/b`).click().type(text);
     }
 
     getTextFromInput(inputName){

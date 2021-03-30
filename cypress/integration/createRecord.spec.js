@@ -125,7 +125,7 @@ describe('User can create a new Monument record', () => {
         action.interactWithIframe('This is a test Monument record.');
 
         cy.log('********** verify asset description is visible in card tree ***********')
-        action.verifyNodeExists('Asset Descriptions', ['Asset_Description', 'This is a test Monument record.']);  
+        action.verifyNodeExists('Asset Descriptions', ['Asset_Description', '[rich text]']);  
     })
 
     /*************************************************************************************/
@@ -152,16 +152,16 @@ describe('User can create a new Monument record', () => {
     it('@8 Construction phase and type data can be added to the record', () => {
         cy.log('********** add construction data to the record **********')
         action.selectCard('Construction Phase and Type');
-        action.typeIntoDropDownField('Period', '21');
+        //action.typeIntoDropDownField('Period', '21');
         action.selectFromDropDown('Period', '21st Century');
         action.typeIntoField('From Date', '2020-03-01');
         action.typeIntoField('To Date', '2020-04-02');
-        action.typeIntoDropDownField('Monument Type', 'Comm');
+        //action.typeIntoDropDownField('Monument Type', 'Comm');
         action.selectFromDropDown('Monument Type', 'Community Centre');
         action.selectFromDropDown('Evidence', 'Implied Evidence');
-        action.typeIntoDropDownField('Main Construction Material', 'metal');
+        //action.typeIntoDropDownField('Main Construction Material', 'metal');
         action.selectFromDropDown('Main Construction Material', 'Metal');
-        action.typeIntoDropDownField('Construction Method', 'hand');
+        //action.typeIntoDropDownField('Construction Method', 'hand');
         action.selectFromDropDown('Construction Method', 'Handbuilt');
         action.typeIntoField('Construction Description', 'this is a test');
         action.selectFromDropDown('Construction Description Type', 'Summary');
@@ -177,7 +177,7 @@ describe('User can create a new Monument record', () => {
 
     it('@9 Cross references to other datasets can be added to the record', () => {
         action.selectCard('Cross References to other datasets');
-        action.typeIntoDropDownField('External Cross Reference Source', 'Coll');
+       // action.typeIntoDropDownField('External Cross Reference Source', 'Coll');
         action.selectFromDropDown('External Cross Reference Source', 'Collection Number');
         action.typeIntoField('External Cross Reference Number', '1234567890');
         action.typeIntoField('External Cross Reference Notes', 'this is a test.');
@@ -194,7 +194,7 @@ describe('User can create a new Monument record', () => {
 
     it('@10 Related Warden Monuments can be added to the record', () => {
         action.selectCard('Related Warden Monuments');
-        action.typeIntoDropDownField('Associated_Monuments', '1628230');
+        //action.typeIntoDropDownField('Associated_Monuments', '1628230');
         action.selectFromDropDown('Associated_Monuments', '1628330');
         action.selectFromDropDown('Relationship Type', 'General association');
         cy.get('button').contains('Add').click();
@@ -208,7 +208,7 @@ describe('User can create a new Monument record', () => {
 
     it('@11 Associated Organisation data can be added to the record', () => {
         action.selectCard('Associated Organisations');
-        action.typeIntoField('Organisation', 'Historic');
+        //action.typeIntoField('Organisation', 'Historic');
         action.selectFromDropDown('Organisation', 'Historic England');
         action.selectFromDropDown('Organisation Role', 'Archaeological Field Investigator');
         action.selectFromDropDown('Organisation Role Date Precision', 'C');
@@ -225,7 +225,7 @@ describe('User can create a new Monument record', () => {
 
     it('@12 Associated People data can be added to the record', () => {
         action.selectCard('Associated People');
-        action.typeIntoDropDownField('Person', 'Helen');
+        //action.typeIntoDropDownField('Person', 'Helen');
         action.selectFromDropDown('Person', 'Helen Winton');
         cy.get('#select2-result-label-192 > div > div.selected-node-value > div > span.node-value-select-value').click();
         cy.get('#select2-chosen-174').contains('Historic England');
