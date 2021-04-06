@@ -16,14 +16,19 @@ describe('User can create a new Monument record', () => {
     before(() => {
         cy.fixture('test-data').then(function (data) {
             this.data = data;
+
         cy.visit('/');
+        cy.log('*********** navigate to the login page **********')
         cy.xpath(homePage.navBar).click();
-        cy.log('********** sign into the application **********');
         cy.xpath(homePage.navBar).click();
         cy.xpath(homePage.signInBtn).click();
-        cy.xpath(loginPage.username).type(this.data.Username);
-        cy.xpath(loginPage.password).type(this.data.Password);
+
+        cy.log('********** sign into the application **********');
+        cy.xpath(loginPage.username).clear().type(this.data.username);
+        cy.xpath(loginPage.password).clear().type(this.data.password);
         cy.xpath(loginPage.signInBtn).click();
+
+        cy.log('********** verify sign in was successful **********')
         cy.xpath(homePage.navBar).click();
         cy.xpath(homePage.logOffBtn).contains('Log off').should('be.visible');
 
@@ -38,7 +43,8 @@ describe('User can create a new Monument record', () => {
     /*************************************************************************************/
 
     it('@1 Asset name can be assigned to a Monument record', () => {
-        action.selectCard('Asset Name');
+        //action.selectCard('Asset Name');
+        cy.selectCard('Asset Name');
         action.typeIntoField('Name', 'Test Monument');
         action.selectFromDropDown('Name Type', 'Primary');
         cy.xpath(createResourcePage.addBtn).click();
@@ -104,10 +110,11 @@ describe('User can create a new Monument record', () => {
 
     it('@5 Location description data can be added to the record - handling iframe', () =>{
         action.selectNode('Locations', 'Locational Descriptions').click();
-        action.selectFromDropDown('Location Description Type', 'Summary');
 
         cy.log('******** Interact with iframe ********')
         action.interactWithIframe('This is a test Monument located in Wiltshire.');
+        cy.get('button').contains('Add').click();
+        action.selectFromDropDown('Location Description Type', 'Summary');
 
         cy.log('******** verfiy location description is visible in card tree ********')
         cy.wait(7000);
@@ -123,9 +130,11 @@ describe('User can create a new Monument record', () => {
 
         cy.log('******** interact with iframe ********')
         action.interactWithIframe('This is a test Monument record.');
+        cy.get('button').contains('Add').click();
 
         cy.log('********** verify asset description is visible in card tree ***********')
-        action.verifyNodeExists('Asset Descriptions', ['Asset_Description', '[rich text]']);  
+        cy.wait(5000);
+        action.verifyNodeExists('Asset Descriptions', ['Asset_Description', '[rich text]']);
     })
 
     /*************************************************************************************/
@@ -146,7 +155,7 @@ describe('User can create a new Monument record', () => {
         action.verifyNodeExists('Sources', ['Source Number', '2']);
     })
 
-    
+
     /*************************************************************************************/
 
     it('@8 Construction phase and type data can be added to the record', () => {
@@ -172,7 +181,7 @@ describe('User can create a new Monument record', () => {
         action.verifyNodeExists('Construction Phase and Type', ['Period', '21st Century']);
     })
 
-    
+
     /*************************************************************************************/
 
     it('@9 Cross references to other datasets can be added to the record', () => {
@@ -189,7 +198,7 @@ describe('User can create a new Monument record', () => {
         action.verifyNodeExists('Cross References to other datasets', ['External Cross Reference Source', 'Collection Number']);
     })
 
-     
+
     /*************************************************************************************/
 
     it('@10 Related Warden Monuments can be added to the record', () => {
@@ -274,5 +283,5 @@ describe('User can create a new Monument record', () => {
         cy.log('********** verify record has been successfully deleted **********')
         cy.url().should('eq', 'https://stage-warden.historicengland.org.uk/resource');
     })
-    
+
 });

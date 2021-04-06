@@ -38,7 +38,6 @@ class CreateResourcePage {
 
     interactWithIframe(text){
         cy.get('iframe').its('0.contentDocument').its('body').type(text);
-        cy.get('button').contains('Add').click();
     }
 
 }
