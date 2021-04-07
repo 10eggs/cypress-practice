@@ -9,11 +9,11 @@ describe('Editing user profile', () => {
         cy.log("********** Before every scenario use existing auth token **********");
         Cypress.Cookies.preserveOnce('ai_session', 'csrftoken','warden','ai_user');
     })
-    
+
     before(() => {
         cy.visit('/');
         cy.log('********** Login to Warden using valid credentials **********');
-        cy.xpath(homePage.navBar).click();
+        cy.xpath(homePage.navBarToggle).click();
         cy.xpath(homePage.signInBtn).click();
         cy.fixture('test-data').then(function (data) {
             this.data = data;
@@ -24,10 +24,10 @@ describe('Editing user profile', () => {
 })
 
     it('should update phone number', () => {
-        cy.visit('/');   
-        
+        cy.visit('/');
+
         cy.log('********** Change phone number **********')
-        cy.xpath(homePage.navBar).click();
+        cy.xpath(homePage.navBarToggle).click();
         cy.xpath(homePage.welcomeBtn).click();
         cy.xpath(profilePage.editBtn).click();
         cy.xpath(profilePage.phoneNumField).clear().type('0123456789');
@@ -41,7 +41,7 @@ describe('Editing user profile', () => {
     it('should change first name and change it back', () => {
         cy.visit('/');
 
-        cy.xpath(homePage.navBar).click();
+        cy.xpath(homePage.navBarToggle).click();
         cy.xpath(homePage.welcomeBtn).click();
         cy.xpath(profilePage.editBtn).click();
 
@@ -56,7 +56,7 @@ describe('Editing user profile', () => {
         cy.xpath(profilePage.saveBtn).click();
         cy.xpath(profilePage.firstName).should('have.value', 'QHCFTZQ');
     })
-}) 
+})
 
 
 // fn: QHCFTZQ
