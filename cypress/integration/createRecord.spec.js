@@ -14,22 +14,21 @@ describe('User can create a new Monument record', () => {
 })
 
     before(() => {
+        cy.visit('/');
         cy.fixture('test-data').then(function (data) {
             this.data = data;
 
-        cy.visit('/');
         cy.log('*********** navigate to the login page **********')
-        cy.xpath(homePage.navBar).click();
-        cy.xpath(homePage.navBar).click();
+        cy.xpath(homePage.navBarToggle).click();
         cy.xpath(homePage.signInBtn).click();
 
         cy.log('********** sign into the application **********');
-        cy.xpath(loginPage.username).clear().type(this.data.username);
-        cy.xpath(loginPage.password).clear().type(this.data.password);
+        cy.xpath(loginPage.username).type(this.data.Username);
+        cy.xpath(loginPage.password).type(this.data.Password);
         cy.xpath(loginPage.signInBtn).click();
 
         cy.log('********** verify sign in was successful **********')
-        cy.xpath(homePage.navBar).click();
+        cy.xpath(homePage.navBarToggle).click();
         cy.xpath(homePage.logOffBtn).contains('Log off').should('be.visible');
 
         cy.log('********** navigate to create resource page **********')
@@ -278,10 +277,9 @@ describe('User can create a new Monument record', () => {
         cy.get('.manage-dropdown').click();
         cy.get('#card-manager .menu-item-subtitle').click();
 
-        cy.xpath('//*[@id="card-alert-panel"]/div[2]/button[2]').contains('Delete Resource?').click();
+        cy.xpath('//*[@id="card-alert-panel"]/div[2]/button[2]').click();
 
         cy.log('********** verify record has been successfully deleted **********')
         cy.url().should('eq', 'https://stage-warden.historicengland.org.uk/resource');
     })
-
-});
+})
