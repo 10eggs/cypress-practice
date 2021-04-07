@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 import { webElements as loginPage } from '../POM/login_page'
+import { webElements as homePage } from '../POM/home_page'
 
 describe('Login functionality', () => {
 
@@ -9,14 +10,11 @@ describe('Login functionality', () => {
 
     before(() => {
         cy.visit('/');
-        cy.fixture('test-data').then(function (data) {
-            this.data = data;
-        });
     })
 
     it('navigates to the sign in page', () => {
-        cy.xpath('//button[@class="navbar-toggle"]').click({ force: true });
-        cy.xpath('//*[@id="auth-link"]').click();
+        cy.xpath(homePage.navBarToggle).click({ force: true });
+        cy.xpath(homePage.signInBtn).click();
         cy.url().should('eq', 'https://stage-warden.historicengland.org.uk/auth/?next=/index.htm');
     })
 
@@ -29,13 +27,16 @@ describe('Login functionality', () => {
     })
 
     it('can login using valid credentials', () => {
-        cy.get(loginPage.username).clear().type(this.data.Username);
-        cy.get(loginPage.password).clear().type(this.data.Password);
+        cy.fixture('test-data').then(function (data) {
+            this.data = data;
+        cy.xpath(loginPage.username).clear().type(this.data.Username);
+        cy.xpath(loginPage.password).clear().type(this.data.Password);
         cy.get('button').contains('Sign In').click();
+        });
 
-        cy.get('[data-target=#myNavbar]').click();
+        cy.xpath(homePage.navBarToggle).click({ force: true });
         cy.get('.application-login').should('contain', 'Log off');
-        cy.getCookie('cypress-session-cookie').should('exist');
+        //cy.getCookie('cypress-session-cookie').should('exist');
     })
 
 });
