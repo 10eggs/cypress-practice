@@ -15,10 +15,10 @@ describe('Editing user profile', () => {
         cy.log('********** Login to Warden using valid credentials **********');
         cy.xpath(homePage.navBarToggle).click();
         cy.xpath(homePage.signInBtn).click();
-        cy.fixture('test-data').then(function (data) {
+        cy.fixture('example').then(function (data) {
             this.data = data;
-        cy.xpath(loginPage.username).type(this.data.Username);
-        cy.xpath(loginPage.password).type(this.data.Password);
+        cy.xpath(loginPage.username).type(this.data.name);
+        cy.xpath(loginPage.password).type(this.data.password);
         cy.xpath(loginPage.signInBtn).click();
     })
 })
@@ -34,6 +34,9 @@ describe('Editing user profile', () => {
         cy.xpath(profilePage.saveBtn).click();
 
         // find out how to assert input text exists - use have.value
+        /*
+        *That's what I use to do, 'have.value' is ok for assertion purpose!
+        */
         cy.log('********** verify phone number field contains updated number **********');
         cy.xpath(profilePage.phoneNumField).should('have.value', '0123456789');
     })

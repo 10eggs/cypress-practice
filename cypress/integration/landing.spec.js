@@ -12,12 +12,12 @@ describe('Landing page functionalities', () => {
     })
 
     it('clicking Search takes user to the search page', () => {
-        cy.fixture('test-data').then(function (data) {
+        cy.fixture('example').then(function (data) {
             this.data = data;
         cy.xpath(homePage.navBarToggle).click();
         cy.xpath(homePage.signInBtn).click();
-        cy.xpath(loginPage.username).type(this.data.Username);
-        cy.xpath(loginPage.password).type(this.data.Password);
+        cy.xpath(loginPage.username).type(this.data.name);
+        cy.xpath(loginPage.password).type(this.data.password);
         });
 
         cy.xpath(loginPage.signInBtn).click();

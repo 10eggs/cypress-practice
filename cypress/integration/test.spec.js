@@ -1,5 +1,10 @@
 /// <reference types="cypress" />
 
+/**
+* I'm assuming that this spec has status work in progress, that's why I omit it for now. You can find
+* one quick note about scope of 'before' hook below \/
+*
+**/
 describe('My firt test', () => {
 
     it('find the content "type"', () => {
@@ -15,6 +20,10 @@ describe('My firt test', () => {
 
 describe('Search functionality', function(){
 
+    /**
+     * Make sure that your enclosing bracket is in correct place - for now whole codeblock is nested in
+     * 'before' hook, which is not the best idea!
+     */
     before(() => {
     cy.visit('https://stage-warden.historicengland.org.uk/');
     cy.xpath(homePage.navBar).click();

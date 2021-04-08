@@ -27,10 +27,10 @@ describe('Login functionality', () => {
     })
 
     it('can login using valid credentials', () => {
-        cy.fixture('test-data').then(function (data) {
+        cy.fixture('example').then(function (data) {
             this.data = data;
-        cy.xpath(loginPage.username).clear().type(this.data.Username);
-        cy.xpath(loginPage.password).clear().type(this.data.Password);
+        cy.xpath(loginPage.username).clear().type(this.data.name);
+        cy.xpath(loginPage.password).clear().type(this.data.password);
         cy.get('button').contains('Sign In').click();
         });
 
